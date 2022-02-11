@@ -9,18 +9,18 @@ using namespace std;
 
 int _tmain(int argc, TCHAR *argv[], TCHAR *envp[]) {
 
-    // initialize MFC and print and error on failure
-    if (!AfxWinInit(::GetModuleHandle(NULL), NULL, ::GetCommandLine(), 0)) {
-        cerr << _T("Fatal Error: MFC initialization failed") << endl;
-        return EXIT_FAILURE;
-    }
+    //// initialize MFC and print and error on failure
+    //if (!AfxWinInit(::GetModuleHandle(NULL), NULL, ::GetCommandLine(), 0)) {
+    //    cerr << _T("Fatal Error: MFC initialization failed.") << endl;
+    //    return EXIT_FAILURE;
+    //}
 
     HRESULT hr;
 
     // Init the COM library - have Windows load up the DLLs.
     hr = CoInitialize(NULL);
     if (FAILED(hr)) {
-        cerr << _T("Fatal Error: OLE initialization failed") << endl;
+        wcerr << _T("Fatal Error: OLE initialization failed.") << endl;
         return hr;
     }
 
@@ -42,17 +42,17 @@ int _tmain(int argc, TCHAR *argv[], TCHAR *envp[]) {
         hr = pActiveDesktop->GetWallpaper(wszWallpaper, MAX_PATH, 0);
 
         if (SUCCEEDED(hr)) {
-            cout << _T("Wallpaper path is:\n    ") << _T(wszWallpaper) << endl << endl;
+            wcout << _T("Wallpaper path is:\n    ") << wszWallpaper << endl << endl;
         }
         else {
-            cout << _T("GetWallpaper() failed.") << endl << endl;
+            wcout << _T("GetWallpaper() failed.") << endl << endl;
         }
 
         // Release the IActiveDesktop interface, since we're done using it.
         pActiveDesktop->Release();
     }
     else {
-        cout << _T("CoInitialize() failed.") << endl << endl;
+        wcout << _T("CoCreateInstance() failed.") << endl << endl;
         goto error;
     }
 
@@ -84,28 +84,28 @@ int _tmain(int argc, TCHAR *argv[], TCHAR *envp[]) {
                 hr = pPersistFile->Save(L"C:\\wallpaper.lnk", FALSE);
 
                 if (SUCCEEDED(hr)) {
-                    cout << _T("Shortcut created.") << endl << endl;
+                    wcout << _T("Shortcut created.") << endl << endl;
                 }
                 else {
-                    cout << _T("Save() failed.") << endl << endl;
+                    wcout << _T("Save() failed.") << endl << endl;
                 }
 
                 // Release the IPersistFile interface, since we're done with it.
                 pPersistFile->Release();
             }
             else {
-                cout << _T("QueryInterface() failed.") << endl << endl;
+                wcout << _T("QueryInterface() failed.") << endl << endl;
             }
         }
         else {
-            cout << _T("SetPath() failed.") << endl << endl;
+            wcout << _T("SetPath() failed.") << endl << endl;
         }
 
         // Release the IShellLink interface too.
         pShellLink->Release();
     }
     else {
-        cout << _T("CoCreateInstance() failed.") << endl << endl;
+        wcout << _T("CoCreateInstance() failed.") << endl << endl;
         goto error;
     }
 
